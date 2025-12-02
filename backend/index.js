@@ -7,7 +7,7 @@ import routes from "./routes/index.js";
 
 dotenv.config();
 
-const PORT = process.env.PORT || 5050;
+const PORT = process.env.PORT || 5070;
 
 console.log("Server running on port:", PORT);
 
@@ -34,7 +34,7 @@ app.get("/", async(req,res)=>{
 });
 
 
-// http:localhosst:5050/api-v1/
+// http:localhosst:5070/api-v1/
 app.use("/api-v1", routes)
 
 // error middleware

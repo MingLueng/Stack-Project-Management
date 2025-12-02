@@ -25,7 +25,7 @@ const taskSchema = new Schema({
         enum:["Low", "Medium", "High"],
         default: "Medium",
     },
-    assignee:[{ type: Schema.Types.ObjectId, ref:"User"}],
+    assignees:[{ type: Schema.Types.ObjectId, ref:"User"}],
     watchers:[{ type: Schema.Types.ObjectId, ref:"User"}],
     // startDate: {type:Date},
     dueDate:{type:Date},

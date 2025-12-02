@@ -2,6 +2,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import Project from '../models/project.js';
 import Workspace from '../models/workspace.js';
+import Task from '../models/task.js';
 
 export const createProject = async (req,res)=>{
     try {
@@ -33,10 +34,10 @@ export const createProject = async (req,res)=>{
 
         });
 
-             if (Array.isArray(workspace.projects)) {
-            workspace.projects.push(newProject._id);
-            await workspace.save();
-            }
+        if (Array.isArray(workspace.projects)) {
+        workspace.projects.push(newProject._id);
+        await workspace.save();
+        }
 
         return res.status(201).json({status:true, message: "Project created successfully", data:newProject});
     }
@@ -44,4 +45,55 @@ export const createProject = async (req,res)=>{
         console.error(error);
         return res.status(500).json({ status:false, message:"Internal server error" });
     }
+}
+
+export const getProjectDetails = async(req, res)=>{
+  
+    try {
+        const { projectId } = req.params;
+
+        const project = await Project.findById(projectId);
+
+        if(!project){
+            return res.status(404).json({status:false,message:"Project not found"});
+        }
+           const isMember = project.members.some((member) => member.user._id.toString() === req.user._id.toString());
+        if(!isMember){
+            return res.status(403).json({status:false, message: "You are not a member of this project"});
+        }
+        res.status(200).json({status:true, message: "Project details fetched successfully", project});
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({status:false, message:"Internal server error" });
+    }
+    
+
+}
+
+export const getProjectTasks = async(req, res)=>{
+  
+    try {
+        const { projectId } = req.params;
+        const project = await Project.findById(projectId).populate("members.user");
+        if(!project){
+            return res.status(404).json({status:false,message:"Project not found"});
+        }
+        
+        // nếu đã populate thì member.user là 1 document, nếu chưa thì là ObjectId
+         const isMember = project.members.some((member) => {
+
+            return member.user && member.user._id ? member.user._id : member.user.toString() === req.user._id.toString();
+            });
+
+        if(!isMember){
+            return res.status(403).json({status:false, message: "You are not a member of this project"});
+        }   
+        const tasks = await Task.find({ project:projectId, isArchived:false }).populate("assignees","name profilePicture").sort({createdAt:-1});
+        res.status(200).json({status:true, message: "Project tasks fetched successfully", project, tasks});
+    }
+    catch (error) {
+        console.error(error);
+        return res.status(500).json({ status:false, message:"Internal server error" });
+    }
+
 }

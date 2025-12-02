@@ -64,7 +64,7 @@ export const getWorkspaceProjects = async(req, res)=>{
       try {
         const { workspaceId } = req.params;
 
-         const workspace = await Workspace.findOne({_id: workspaceId,"members.user":req.user._id})
+        const workspace = await Workspace.findOne({_id: workspaceId,"members.user":req.user._id})
          .populate("members.user","name email profilePicture");
         if (!workspace){
             return res.status(404).json({status:false, message: "Workspace not found"});
