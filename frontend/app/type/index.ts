@@ -32,7 +32,7 @@ export enum ProjectStatus {
   CANCELLED = "Cancelled",
 }
 
-export type TaskStatus = "To Do" | "In Progress" | "Review" | "Done";
+export type TaskStatus = "To Do" | "In Progress" | "Done";
 
 export type TaskPriority = "High" | "Medium" | "Low";
 
@@ -40,6 +40,7 @@ export enum ProjectMemberRole {
   MANAGER = "manager",
   CONTRIBUTOR = "contributor",
   VIEWER = "viewer",
+  
 }
 
 export interface Project{
@@ -95,7 +96,7 @@ export interface Task{
   dueDate: Date;
   createdAt: Date;
   updatedAt: Date;
-  isArchived: boolean;
+  isArchived: boolean; // sử dụng các bit 0, 1 hoặc true, false để xác định lưu trữ
   createdBy: User | string;
 }
 
@@ -105,4 +106,5 @@ export interface MembersProps{
   role: "admin" | "member" | "owner" | "guest";
   jointAt: Date;
 }
+
 

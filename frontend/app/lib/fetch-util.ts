@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5050/api-v1";
+const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5070/api-v1";
 
 //Khởi tạo một axios instance riêng đặt tên là api
 const api = axios.create({
@@ -47,7 +47,7 @@ const postData = async<T>(url:string,data:unknown):Promise<T> =>{
 
 const fetchData  = async<T>(url:string):Promise<T>=>{
     //path: string chính là phần đuôi của URL backend.
-    //http://localhost:5050/api-v1/usersc
+    //http://localhost:5070/api-v1/usersc
    
         const response = await api.get<T>(url);
         return response.data;

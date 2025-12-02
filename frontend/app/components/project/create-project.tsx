@@ -73,7 +73,6 @@ export const CreateProjectDialog = ({
   
   }
 
-
   return (
     <Dialog open={isOpen} 
       onOpenChange={onClose}
@@ -269,7 +268,6 @@ export const CreateProjectDialog = ({
                                     <PopoverContent className='w-full max-w-60 overflow-y-auto' align="start">
                                       <div className="flex flex-col gap-2">
                                         {workspaceMembers.map((member) => {
-                                          debugger
                                               const selectedMember = selectedMembers.find((m) => m.user === member.user._id);
                                               return(
                                                 <div key={member._id} className ="flex items-center gap-2 p-2 border rounded">
@@ -323,6 +321,7 @@ export const CreateProjectDialog = ({
                                                         <SelectItem value="manager">
                                                           Manager
                                                         </SelectItem>
+                                                        
                                                         <SelectItem value="contributor">
                                                           Contributor
                                                         </SelectItem>
