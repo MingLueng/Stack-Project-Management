@@ -48,6 +48,7 @@ const projectSchema = new Schema({
             }
         }
     ],
+    
     tags:[{type:String}],
     createdBy:{type:Schema.Types.ObjectId},
     isArchived: {type:Boolean, default:false},
